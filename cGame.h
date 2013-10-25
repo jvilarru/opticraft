@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cScene.h"
+#include "Camera.h"
 #include <map>
 #include <shlobj.h>
 
@@ -29,4 +30,5 @@ private:
 	unsigned char keys[256];
 	unsigned char specialKeys[256];
 	cScene Scene;
+	Camera cam;
 };

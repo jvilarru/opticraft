@@ -1,15 +1,17 @@
 #include "Globals.h"
+#include "Point.h"
 
 #pragma once
 class Block
 {
 public:
-	Block(float x, float y, float z);
+	Block(void);
+	Block(Point center);
 	~Block(void);
 
 	void drawBlock();
 
 private:
-	float x, y, z;
+	Point center;
 };
 

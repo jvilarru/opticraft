@@ -5,11 +5,14 @@
 #include <math.h>
 #include "GL/glut.h"
 
-#define BLOCK_SIZE		42
+#pragma comment(lib, "glut32.lib")
 
-#define SCENE_WIDTH		1024
-#define SCENE_DEPTH		1024
-#define SCENE_HEIGHT	256
+#define BLOCK_SIZE		1.0
+#define RENDER_DISTANCE 200
+
+#define SCENE_WIDTH		512
+#define SCENE_DEPTH		512
+#define SCENE_HEIGHT	128
 
 #define GAME_WIDTH	800
 #define GAME_HEIGHT	600

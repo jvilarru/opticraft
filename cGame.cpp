@@ -9,14 +9,20 @@ cGame::~cGame(void){
 
 bool cGame::Init()
 {
+	Point eye(-SCENE_WIDTH*2, SCENE_HEIGHT*3, -SCENE_DEPTH*2);
+	Point center(SCENE_WIDTH, SCENE_HEIGHT, 0.0);
+	Point up(0.0, 1.0, 0.0);
 	//Graphics initialization
 	glClearColor(0.0f,0.0f,0.0f,0.0f);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(0,42,0,42,0,1);
+	cam = Camera(eye, center, up);
 	glMatrixMode(GL_MODELVIEW);
 	glAlphaFunc(GL_GREATER, 0.05f);
 	glEnable(GL_ALPHA_TEST);
+
+	Scene.Init();
+
 	return true;
 }
 
