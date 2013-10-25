@@ -9,9 +9,10 @@ cGame::~cGame(void){
 
 bool cGame::Init()
 {
-	Point eye(-SCENE_WIDTH*2, SCENE_HEIGHT*3, -SCENE_DEPTH*2);
-	Point center(SCENE_WIDTH, SCENE_HEIGHT, 0.0);
+	Point eye(-SCENE_WIDHT*2, SCENE_HEIGHT*3, -SCENE_DEPTH*2);
+	Point center(SCENE_WIDHT, SCENE_HEIGHT, 0.0);
 	Point up(0.0, 1.0, 0.0);
+	bool basaur;
 	//Graphics initialization
 	glClearColor(0.0f,0.0f,0.0f,0.0f);
 	glMatrixMode(GL_PROJECTION);
@@ -21,9 +22,8 @@ bool cGame::Init()
 	glAlphaFunc(GL_GREATER, 0.05f);
 	glEnable(GL_ALPHA_TEST);
 
-	Scene.Init();
-
-	return true;
+	basaur = Scene.Init();
+	return basaur;
 }
 
 bool cGame::Loop() {
@@ -49,9 +49,8 @@ void cGame::ReadMouse(int button, int state, int x, int y) {
 }
 
 //Process
-bool cGame::Process()
-{
-	Scene.Process();
+bool cGame::Process() {
+	if(keys[27])return false;
 	if(keys['W'] || keys['w'] || specialKeys[GLUT_KEY_UP]) {
 		return true;
 	}
