@@ -9,6 +9,7 @@ cGame::~cGame(void){
 
 bool cGame::Init()
 {
+	bool basaur;
 	//Graphics initialization
 	glClearColor(0.0f,0.0f,0.0f,0.0f);
 	glMatrixMode(GL_PROJECTION);
@@ -17,7 +18,8 @@ bool cGame::Init()
 	glMatrixMode(GL_MODELVIEW);
 	glAlphaFunc(GL_GREATER, 0.05f);
 	glEnable(GL_ALPHA_TEST);
-	return true;
+	basaur = Scene.Init();
+	return basaur;
 }
 
 bool cGame::Loop() {
@@ -43,9 +45,8 @@ void cGame::ReadMouse(int button, int state, int x, int y) {
 }
 
 //Process
-bool cGame::Process()
-{
-	Scene.Process();
+bool cGame::Process() {
+	if(keys[27])return false;
 	if(keys['W'] || keys['w'] || specialKeys[GLUT_KEY_UP]) {
 		return true;
 	}

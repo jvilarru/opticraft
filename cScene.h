@@ -8,5 +8,5 @@ public:
 	bool Init();
 
 private:
-	char map[SCENE_HEIGHT][SCENE_DEPTH][SCENE_WIDHT];	//scene
+	char ***map;	//scene
 };
