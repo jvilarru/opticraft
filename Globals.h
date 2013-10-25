@@ -7,8 +7,8 @@
 
 #define BLOCK_SIZE		128
 
-#define SCENE_WIDHT		1024
-#define SCENE_DEPTH		1024
+#define SCENE_WIDHT		8
+#define SCENE_DEPTH		8
 #define SCENE_HEIGHT	256
 
 #define GAME_WIDTH	1024
