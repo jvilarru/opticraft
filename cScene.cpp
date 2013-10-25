@@ -1,7 +1,7 @@
 #include "cScene.h"
 
 cScene::cScene(void) {
-	sceneBlocks = (Block *) malloc(SCENE_WIDTH*SCENE_HEIGHT*SCENE_DEPTH*sizeof(Block));
+	sceneBlocks = (Block *) malloc(SCENE_WIDHT*SCENE_HEIGHT*SCENE_DEPTH*sizeof(Block));
 	map = (char***)malloc(SCENE_HEIGHT*sizeof(char**));
 	for (int i = 0; i < SCENE_HEIGHT; i++){
 		map[i] = (char**)malloc(SCENE_DEPTH*sizeof(char*));
@@ -19,8 +19,8 @@ cScene::~cScene(void) {
 void cScene::Draw() {
 	for (int i = 0; i < SCENE_HEIGHT; ++i) {
 		for (int j = 0; j < SCENE_DEPTH; ++j) {
-			for (int k = 0; k < SCENE_WIDTH; ++k) {
-				sceneBlocks[i*SCENE_WIDTH*SCENE_DEPTH + j*SCENE_WIDTH + k].drawBlock();
+			for (int k = 0; k < SCENE_WIDHT; ++k) {
+				sceneBlocks[i*SCENE_WIDHT*SCENE_DEPTH + j*SCENE_WIDHT + k].drawBlock();
 			}
 		}
 	}
