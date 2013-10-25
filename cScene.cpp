@@ -1,26 +1,25 @@
 #include "cScene.h"
 
 cScene::cScene(void) {
-	sceneBlocks = (Block *) malloc(SCENE_WIDTH*SCENE_HEIGHT*SCENE_DEPTH*sizeof(Block));
-	map = (char***)malloc(SCENE_HEIGHT*sizeof(char**));
+	sceneBlocks = (Block***)malloc(SCENE_HEIGHT*sizeof(Block**));
 	for (int i = 0; i < SCENE_HEIGHT; i++){
-		map[i] = (char**)malloc(SCENE_DEPTH*sizeof(char*));
+		sceneBlocks[i] = (Block**)malloc(SCENE_DEPTH*sizeof(Block*));
 		for (int j = 0; j < SCENE_DEPTH; j++) {
-			map[i][j] = (char*)malloc(SCENE_WIDHT*sizeof(char));
+			sceneBlocks[i][j] = (Block*)malloc(SCENE_WIDHT*sizeof(Block));
 		}
 	}
 }
 
 cScene::~cScene(void) {
-	free(map);
+	free(sceneBlocks);
 }
 
 
 void cScene::Draw() {
 	for (int i = 0; i < SCENE_HEIGHT; ++i) {
 		for (int j = 0; j < SCENE_DEPTH; ++j) {
-			for (int k = 0; k < SCENE_WIDTH; ++k) {
-				sceneBlocks[i*SCENE_WIDTH*SCENE_DEPTH + j*SCENE_WIDTH + k].drawBlock();
+			for (int k = 0; k < SCENE_WIDHT; ++k) {
+				sceneBlocks[i][j][k].drawBlock();
 			}
 		}
 	}
@@ -78,10 +77,9 @@ bool cScene::Init() {
 	bool res = true;
 	float *vector;
 	vector = (float*)malloc(SCENE_WIDHT*SCENE_DEPTH*sizeof(float));
-	for (int i = 0; i < SCENE_WIDHT*SCENE_DEPTH; i++)
-	{
+	/*for (int i = 0; i < SCENE_WIDHT*SCENE_DEPTH; i++){
 		vector[i] = 0.0;
-	}
+	}*/
 	int featureSize = 8;
 	for( int z = 0; z < SCENE_DEPTH; z += featureSize) {
 		for (int x = 0; x < SCENE_WIDHT; x += featureSize) {
@@ -102,7 +100,9 @@ bool cScene::Init() {
 	if(fd!=nullptr){
 		for(int i=0;i<SCENE_WIDHT;i++){
 			for(int j=0;j<SCENE_DEPTH;j++){
-				
+				//for(int k=vector[i*SCENE_DEPTH+j]
+				if(vector[i*SCENE_DEPTH+j] < min)min = vector[i*SCENE_DEPTH+j];
+				if(vector[i*SCENE_DEPTH+j] > max)max = vector[i*SCENE_DEPTH+j];
 			}
 		}
 		fprintf(fd,"min-->%.8f\n",min);
@@ -114,7 +114,7 @@ bool cScene::Init() {
 	for (int i = 0; i < SCENE_HEIGHT; i++){
 		for (int j = 0; j < SCENE_DEPTH; j++) {
 			for (int k = 0; k < SCENE_WIDHT; k++) {
-				map[i][j][k] = 42;
+				sceneBlocks[i][j][k] = Block(Point(i,j,k));
 			}
 		}
 	}

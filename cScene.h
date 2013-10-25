@@ -10,6 +10,6 @@ public:
 	bool Init();
 
 private:
-	char ***map/*[SCENE_HEIGHT][SCENE_DEPTH][SCENE_WIDTH]*/;	//scene
-	Block *sceneBlocks/*[SCENE_HEIGHT][SCENE_DEPTH][SCENE_WIDTH]*/;	//real map
+	//char ***map/*[SCENE_HEIGHT][SCENE_DEPTH][SCENE_WIDTH]*/;	//scene
+	Block ***sceneBlocks/*[SCENE_HEIGHT][SCENE_DEPTH][SCENE_WIDTH]*/;	//real map
 };
