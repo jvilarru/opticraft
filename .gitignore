@@ -1,0 +1,11 @@
+*
+*.db
+*/*.db
+!.gitignore
+!*.cpp
+!*.hpp
+!*.h
+!*.lib
+!*.dll
+!GL
+!GL/*

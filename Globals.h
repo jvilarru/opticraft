@@ -3,16 +3,16 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include <gl/glut.h>
+#include "GL/glut.h"
 
-#define BLOCK_SIZE		128
+#define BLOCK_SIZE		42
 
-#define SCENE_WIDHT		1024
+#define SCENE_WIDTH		1024
 #define SCENE_DEPTH		1024
 #define SCENE_HEIGHT	256
 
-#define GAME_WIDTH	1024
-#define GAME_HEIGHT	768
+#define GAME_WIDTH	800
+#define GAME_HEIGHT	600
 
 #define EMPTY	0
 #define DIRT	1

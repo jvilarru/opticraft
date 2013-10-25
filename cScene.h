@@ -1,5 +1,7 @@
 #pragma once
 #include "Globals.h"
+#include "Block.h"
+
 class cScene
 {
 public:
@@ -10,5 +12,6 @@ public:
 	int Process();
 
 private:
-	char map[SCENE_HEIGHT][SCENE_DEPTH][SCENE_WIDHT];	//scene
+	char map[SCENE_HEIGHT][SCENE_DEPTH][SCENE_WIDTH];	//scene
+	Block sceneBlocks[SCENE_HEIGHT][SCENE_DEPTH][SCENE_WIDTH];	//real map
 };
