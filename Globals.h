@@ -10,7 +10,7 @@
 #define BLOCK_SIZE		1.0
 #define RENDER_DISTANCE 200
 
-#define SCENE_WIDHT		512
+#define SCENE_WIDTH		512
 #define SCENE_DEPTH		512
 #define SCENE_HEIGHT	128
 

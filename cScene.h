@@ -15,6 +15,6 @@ private:
 	void addVBO();
 	void rmVBO(GLuint uid);
 	
-	GLuint uidsVBO[SCENE_HEIGHT][SCENE_DEPTH][SCENE_WIDHT];
+	GLuint *uidsVBO;
 	Block ***sceneBlocks;
 };

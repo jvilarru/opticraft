@@ -9,8 +9,8 @@ cGame::~cGame(void){
 
 bool cGame::Init()
 {
-	Point eye(-SCENE_WIDHT*2, SCENE_HEIGHT*3, -SCENE_DEPTH*2);
-	Point center(SCENE_WIDHT, SCENE_HEIGHT, 0.0);
+	Point eye(-SCENE_WIDTH*2, SCENE_HEIGHT*3, -SCENE_DEPTH*2);
+	Point center(SCENE_WIDTH, SCENE_HEIGHT, 0.0);
 	Point up(0.0, 1.0, 0.0);
 	bool basaur;
 	//Graphics initialization

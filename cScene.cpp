@@ -5,7 +5,7 @@ cScene::cScene(void) {
 	for (int i = 0; i < SCENE_HEIGHT; i++){
 		sceneBlocks[i] = (Block**)malloc(SCENE_DEPTH*sizeof(Block*));
 		for (int j = 0; j < SCENE_DEPTH; j++) {
-			sceneBlocks[i][j] = (Block*)malloc(SCENE_WIDHT*sizeof(Block));
+			sceneBlocks[i][j] = (Block*)malloc(SCENE_WIDTH*sizeof(Block));
 		}
 	}
 }
@@ -18,7 +18,7 @@ cScene::~cScene(void) {
 void cScene::Draw() {
 	for (int i = 0; i < SCENE_HEIGHT; ++i) {
 		for (int j = 0; j < SCENE_DEPTH; ++j) {
-			for (int k = 0; k < SCENE_WIDHT; ++k) {
+			for (int k = 0; k < SCENE_WIDTH; ++k) {
 				sceneBlocks[i][j][k].drawBlock();
 			}
 		}
@@ -33,11 +33,11 @@ float frand(){
 }
 
 double sample(float* values, int x, int z) {
-	return values[(x & (SCENE_WIDHT - 1)) + (z &(SCENE_DEPTH - 1)) * SCENE_WIDHT];
+	return values[(x & (SCENE_WIDTH - 1)) + (z &(SCENE_DEPTH - 1)) * SCENE_WIDTH];
 }
  
 void setSample(float * values, int x, int z, double value) {
-	values[(x & (SCENE_WIDHT - 1)) + (z &(SCENE_DEPTH - 1)) * SCENE_WIDHT] = value;
+	values[(x & (SCENE_WIDTH - 1)) + (z &(SCENE_DEPTH - 1)) * SCENE_WIDTH] = value;
 }
 
 void sampleSquare(float * vector,int x, int z, int size, double value) {
@@ -61,12 +61,12 @@ void sampleDiamond(float* vector, int x, int z, int size, double value) {
 void DiamondSquare(float* vector, int stepsize, double scale) {
     int halfstep = stepsize / 2;
 	for (int z = halfstep; z < SCENE_DEPTH + halfstep; z += stepsize) {
-		for (int x = halfstep; x < SCENE_WIDHT + halfstep; x += stepsize) {
+		for (int x = halfstep; x < SCENE_WIDTH + halfstep; x += stepsize) {
             sampleSquare(vector,x, z, stepsize, frand() * scale);
         }
     }
 	for (int z = 0; z < SCENE_DEPTH; z += stepsize) {
-		for (int x = 0; x < SCENE_WIDHT; x += stepsize) {
+		for (int x = 0; x < SCENE_WIDTH; x += stepsize) {
             sampleDiamond(vector,x + halfstep, z, stepsize, frand() * scale);
             sampleDiamond(vector,x, z + halfstep, stepsize, frand() * scale);
         }
@@ -76,13 +76,13 @@ void DiamondSquare(float* vector, int stepsize, double scale) {
 bool cScene::Init() {
 	bool res = true;
 	float *vector;
-	vector = (float*)malloc(SCENE_WIDHT*SCENE_DEPTH*sizeof(float));
-	/*for (int i = 0; i < SCENE_WIDHT*SCENE_DEPTH; i++){
+	vector = (float*)malloc(SCENE_WIDTH*SCENE_DEPTH*sizeof(float));
+	/*for (int i = 0; i < SCENE_WIDTH*SCENE_DEPTH; i++){
 		vector[i] = 0.0;
 	}*/
 	int featureSize = 8;
 	for( int z = 0; z < SCENE_DEPTH; z += featureSize) {
-		for (int x = 0; x < SCENE_WIDHT; x += featureSize) {
+		for (int x = 0; x < SCENE_WIDTH; x += featureSize) {
 			setSample(vector,x, z, frand());  //IMPORTANT: frand() is a random function that returns a value between -1 and 1.
 		}
 	}
@@ -98,7 +98,7 @@ bool cScene::Init() {
 	float min,max;
 	min = max =0.0;
 	if(fd!=nullptr){
-		for(int i=0;i<SCENE_WIDHT;i++){
+		for(int i=0;i<SCENE_WIDTH;i++){
 			for(int j=0;j<SCENE_DEPTH;j++){
 				//for(int k=vector[i*SCENE_DEPTH+j]
 				if(vector[i*SCENE_DEPTH+j] < min)min = vector[i*SCENE_DEPTH+j];
@@ -113,7 +113,7 @@ bool cScene::Init() {
 	free(vector);
 	for (int i = 0; i < SCENE_HEIGHT; i++){
 		for (int j = 0; j < SCENE_DEPTH; j++) {
-			for (int k = 0; k < SCENE_WIDHT; k++) {
+			for (int k = 0; k < SCENE_WIDTH; k++) {
 				sceneBlocks[i][j][k] = Block(Point(i,j,k));
 			}
 		}
@@ -130,6 +130,22 @@ void cScene::initVBO() {
 	Un vector con las normales de esos vertices (serán las de la cara)
 	y el color de ese vertice (en este caso habrá que meter texturas tambien)
 	Por último se tendrá que crear el vector de indices */
+
+	//Generate one buffer per each cube, many of them will be empty probably
+	//but we must reserve this positions just in case the player place
+	//a block at this position
+	glGenBuffers(SCENE_HEIGHT*SCENE_DEPTH*SCENE_WIDTH, uidsVBO);
+
+	//TODO: dividir en 3 el vector
+	for(int i = 0; i<SCENE_HEIGHT; ++i) {
+		for(int j = 0; j<SCENE_DEPTH; ++j) {
+			for(int k = 0; k<SCENE_WIDTH; ++k) {
+				//TODO: generate the VBO por each block at the scene
+				// in case that the block didn't exists we don't have
+				// to do anything
+			}
+		}
+	}
 }
 
 void cScene::addVBO() {
