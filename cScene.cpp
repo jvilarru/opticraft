@@ -133,7 +133,7 @@ void cScene::initVBO() {
 }
 
 void cScene::addVBO() {
-	//TODO: quite similar to the initVBO
+	//TODO: pretty similar to the initVBO
 }
 
 void cScene::rmVBO(GLuint uid) {
