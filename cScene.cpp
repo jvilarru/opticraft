@@ -123,32 +123,19 @@ bool cScene::Init() {
 }
 
 void cScene::initVBO() {
-	float *data;
-	data = (float***) malloc(SCENE_HEIGHT*sizeof(float**));
-	for (int i = 0; i < SCENE_HEIGHT; i++) {
-		data[i] = (float**) malloc(SCENE_DEPTH*sizeof(float*));
-		for(int j = 0; j<SCENE_DEPTH; ++j) {
-			data[i][j] = (float*)malloc(SCENE_WIDHT*sizeof(float));
-			for(int k = 0; k<SCENE_WIDHT*3; ++k) {
-				data[i][j][k] 
-			}
-		}
-	}
-	/* Create a new VBO and use the variable "triangleVBO" to store the VBO id */
-	glGenBuffers(1, &quadVBO);
- 
-	/* Make the new VBO active */
-	glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
- 
-	/* Upload vertex data to the video device */
-	glBufferData(GL_ARRAY_BUFFER, NUM_OF_VERTICES_IN_DATA * 3 * sizeof(float), data, GL_DYNAMIC_DRAW);
- 
-	/* Specify that our coordinate data is going into attribute index 0(shaderAttribute), and contains three floats per vertex */
-	glVertexAttribPointer(shaderAttribute, 3, GL_FLOAT, GL_FALSE, 0, 0);
- 
-	/* Enable attribute index 0(shaderAttribute) as being used */
-	glEnableVertexAttribArray(shaderAttribute);
- 
-	/* Make the new VBO active. */
-	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
+	//TODO
+	/* La idea es la siguiente:
+	Tenemos un vector con un uid de cada cubo.
+	Por cada cubo hay que hacer un vector con sus vertices (8)
+	Un vector con las normales de esos vertices (serán las de la cara)
+	y el color de ese vertice (en este caso habrá que meter texturas tambien)
+	Por último se tendrá que crear el vector de indices */
+}
+
+void cScene::addVBO() {
+	//TODO: quite similar to the initVBO
+}
+
+void cScene::rmVBO(GLuint uid) {
+	//TODO: to be studied
 }
