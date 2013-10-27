@@ -4,7 +4,7 @@ Point::Point(void)
 {
 }
 
-Point::Point(float x, float y, float z)
+Point::Point(int x, int y, int z)
 {
 	this->x = x;
 	this->y = y;
@@ -16,31 +16,31 @@ Point::~Point(void)
 {
 }
 
-float Point::getX() {
+int Point::getX() {
 	return x;
 }
 
-float Point::getY() {
+int Point::getY() {
 	return y;
 }
 
-float Point::getZ() {
+int Point::getZ() {
 	return z;
 }
 
-void Point::setX(float x) {
+void Point::setX(int x) {
 	this->x = x;
 }
 
-void Point::setY(float y) {
+void Point::setY(int y) {
 	this->y = y;
 }
 
-void Point::setZ(float z) {
+void Point::setZ(int z) {
 	this->z = z;
 }
 
-void Point::setPoint(float x, float y, float z) {
+void Point::setPoint(int x, int y, int z) {
 	this->x = x;
 	this->y = y;
 	this->z = z;

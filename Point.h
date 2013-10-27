@@ -3,20 +3,18 @@ class Point
 {
 public:
 	Point(void);
-	Point(float x, float y, float z);
+	Point(int x, int y, int z);
 	~Point(void);
 
-	float getX();
-	float getY();
-	float getZ();
+	int getX();
+	int getY();
+	int getZ();
 
-	void setX(float x);
-	void setY(float y);
-	void setZ(float z);
+	void setX(int x);
+	void setY(int y);
+	void setZ(int z);
 
-	void setPoint(float x, float y, float z);
-
-private:
-	float x, y, z;
+	void setPoint(int x, int y, int z);
+	int x, y, z;
 };
 

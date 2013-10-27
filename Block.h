@@ -6,12 +6,13 @@ class Block
 {
 public:
 	Block(void);
-	Block(Point center);
+	Block(Point center,char id);
 	~Block(void);
 
 	void drawBlock();
 
 private:
 	Point center;
+	char id;
 };
 

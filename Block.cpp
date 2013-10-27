@@ -11,9 +11,11 @@ Block::Block(void)
 {
 }
 
-Block::Block(Point center)
-{
-	this->center.setPoint(center.getX(), center.getY(), center.getZ());
+Block::Block(Point center,char id) {
+	this->center.x = center.x;
+	this->center.y = center.y;
+	this->center.z = center.z;
+	this->id = id;
 }
 
 
@@ -27,40 +29,40 @@ void Block::drawBlock() {
 #endif
 	glBegin(GL_QUADS);
 	//Top face
-	glVertex3f(center.getX()-BLOCK_SIZE/2, center.getY()+BLOCK_SIZE/2, center.getZ()-BLOCK_SIZE/2);
-	glVertex3f(center.getX()+BLOCK_SIZE/2, center.getY()+BLOCK_SIZE/2, center.getZ()-BLOCK_SIZE/2);
-	glVertex3f(center.getX()+BLOCK_SIZE/2, center.getY()+BLOCK_SIZE/2, center.getZ()+BLOCK_SIZE/2);
-	glVertex3f(center.getX()-BLOCK_SIZE/2, center.getY()+BLOCK_SIZE/2, center.getZ()+BLOCK_SIZE/2);
+	glVertex3f(center.x-BLOCK_SIZE/2, center.y+BLOCK_SIZE/2, center.z-BLOCK_SIZE/2);
+	glVertex3f(center.x+BLOCK_SIZE/2, center.y+BLOCK_SIZE/2, center.z-BLOCK_SIZE/2);
+	glVertex3f(center.x+BLOCK_SIZE/2, center.y+BLOCK_SIZE/2, center.z+BLOCK_SIZE/2);
+	glVertex3f(center.x-BLOCK_SIZE/2, center.y+BLOCK_SIZE/2, center.z+BLOCK_SIZE/2);
 
 	//Bottom face
-	glVertex3f(center.getX()-BLOCK_SIZE/2, center.getY()-BLOCK_SIZE/2, center.getZ()-BLOCK_SIZE/2);
-	glVertex3f(center.getX()-BLOCK_SIZE/2, center.getY()-BLOCK_SIZE/2, center.getZ()+BLOCK_SIZE/2);
-	glVertex3f(center.getX()+BLOCK_SIZE/2, center.getY()-BLOCK_SIZE/2, center.getZ()+BLOCK_SIZE/2);
-	glVertex3f(center.getX()+BLOCK_SIZE/2, center.getY()-BLOCK_SIZE/2, center.getZ()-BLOCK_SIZE/2);
+	glVertex3f(center.x-BLOCK_SIZE/2, center.y-BLOCK_SIZE/2, center.z-BLOCK_SIZE/2);
+	glVertex3f(center.x-BLOCK_SIZE/2, center.y-BLOCK_SIZE/2, center.z+BLOCK_SIZE/2);
+	glVertex3f(center.x+BLOCK_SIZE/2, center.y-BLOCK_SIZE/2, center.z+BLOCK_SIZE/2);
+	glVertex3f(center.x+BLOCK_SIZE/2, center.y-BLOCK_SIZE/2, center.z-BLOCK_SIZE/2);
 
 	//Front face
-	glVertex3f(center.getX()-BLOCK_SIZE/2, center.getY()-BLOCK_SIZE/2, center.getZ()-BLOCK_SIZE/2);
-	glVertex3f(center.getX()+BLOCK_SIZE/2, center.getY()-BLOCK_SIZE/2, center.getZ()-BLOCK_SIZE/2);
-	glVertex3f(center.getX()+BLOCK_SIZE/2, center.getY()+BLOCK_SIZE/2, center.getZ()-BLOCK_SIZE/2);
-	glVertex3f(center.getX()-BLOCK_SIZE/2, center.getY()+BLOCK_SIZE/2, center.getZ()-BLOCK_SIZE/2);
+	glVertex3f(center.x-BLOCK_SIZE/2, center.y-BLOCK_SIZE/2, center.z-BLOCK_SIZE/2);
+	glVertex3f(center.x+BLOCK_SIZE/2, center.y-BLOCK_SIZE/2, center.z-BLOCK_SIZE/2);
+	glVertex3f(center.x+BLOCK_SIZE/2, center.y+BLOCK_SIZE/2, center.z-BLOCK_SIZE/2);
+	glVertex3f(center.x-BLOCK_SIZE/2, center.y+BLOCK_SIZE/2, center.z-BLOCK_SIZE/2);
 
 	//Back face
-	glVertex3f(center.getX()-BLOCK_SIZE/2, center.getY()-BLOCK_SIZE/2, center.getZ()+BLOCK_SIZE/2);
-	glVertex3f(center.getX()-BLOCK_SIZE/2, center.getY()+BLOCK_SIZE/2, center.getZ()+BLOCK_SIZE/2);
-	glVertex3f(center.getX()+BLOCK_SIZE/2, center.getY()+BLOCK_SIZE/2, center.getZ()+BLOCK_SIZE/2);
-	glVertex3f(center.getX()+BLOCK_SIZE/2, center.getY()-BLOCK_SIZE/2, center.getZ()+BLOCK_SIZE/2);
+	glVertex3f(center.x-BLOCK_SIZE/2, center.y-BLOCK_SIZE/2, center.z+BLOCK_SIZE/2);
+	glVertex3f(center.x-BLOCK_SIZE/2, center.y+BLOCK_SIZE/2, center.z+BLOCK_SIZE/2);
+	glVertex3f(center.x+BLOCK_SIZE/2, center.y+BLOCK_SIZE/2, center.z+BLOCK_SIZE/2);
+	glVertex3f(center.x+BLOCK_SIZE/2, center.y-BLOCK_SIZE/2, center.z+BLOCK_SIZE/2);
 
 	//Left face
-	glVertex3f(center.getX()-BLOCK_SIZE/2, center.getY()-BLOCK_SIZE/2, center.getZ()+BLOCK_SIZE/2);
-	glVertex3f(center.getX()-BLOCK_SIZE/2, center.getY()-BLOCK_SIZE/2, center.getZ()-BLOCK_SIZE/2);
-	glVertex3f(center.getX()-BLOCK_SIZE/2, center.getY()+BLOCK_SIZE/2, center.getZ()-BLOCK_SIZE/2);
-	glVertex3f(center.getX()-BLOCK_SIZE/2, center.getY()+BLOCK_SIZE/2, center.getZ()+BLOCK_SIZE/2);
+	glVertex3f(center.x-BLOCK_SIZE/2, center.y-BLOCK_SIZE/2, center.z+BLOCK_SIZE/2);
+	glVertex3f(center.x-BLOCK_SIZE/2, center.y-BLOCK_SIZE/2, center.z-BLOCK_SIZE/2);
+	glVertex3f(center.x-BLOCK_SIZE/2, center.y+BLOCK_SIZE/2, center.z-BLOCK_SIZE/2);
+	glVertex3f(center.x-BLOCK_SIZE/2, center.y+BLOCK_SIZE/2, center.z+BLOCK_SIZE/2);
 
 	//Right face
-	glVertex3f(center.getX()+BLOCK_SIZE/2, center.getY()-BLOCK_SIZE/2, center.getZ()-BLOCK_SIZE/2);
-	glVertex3f(center.getX()+BLOCK_SIZE/2, center.getY()-BLOCK_SIZE/2, center.getZ()+BLOCK_SIZE/2);
-	glVertex3f(center.getX()+BLOCK_SIZE/2, center.getY()+BLOCK_SIZE/2, center.getZ()+BLOCK_SIZE/2);
-	glVertex3f(center.getX()+BLOCK_SIZE/2, center.getY()+BLOCK_SIZE/2, center.getZ()-BLOCK_SIZE/2);
+	glVertex3f(center.x+BLOCK_SIZE/2, center.y-BLOCK_SIZE/2, center.z-BLOCK_SIZE/2);
+	glVertex3f(center.x+BLOCK_SIZE/2, center.y-BLOCK_SIZE/2, center.z+BLOCK_SIZE/2);
+	glVertex3f(center.x+BLOCK_SIZE/2, center.y+BLOCK_SIZE/2, center.z+BLOCK_SIZE/2);
+	glVertex3f(center.x+BLOCK_SIZE/2, center.y+BLOCK_SIZE/2, center.z-BLOCK_SIZE/2);
 
 	glEnd();
 #ifdef COLOR

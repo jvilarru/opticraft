@@ -21,6 +21,7 @@ public:
 	void ReadKeyboard(unsigned char key, bool press);
 	void ReadSpecialKeyboard(unsigned char specialkey, bool press);
 	void ReadMouse(int button, int state, int x, int y);
+	void MouseMove(int x, int y,bool pressed);
 	//Process
 	bool Process();
 	//Output
