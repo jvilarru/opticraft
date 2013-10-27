@@ -1,4 +1,5 @@
 #pragma once
+//#include "GL/glew.h"
 #include "Globals.h"
 #include "Block.h"
 
@@ -10,5 +11,8 @@ public:
 	bool Init();
 
 private:
-	Block ***sceneBlocks;	//real map
+	void initVBO();
+
+	GLuint quadVBO;
+	Block ***sceneBlocks;
 };
