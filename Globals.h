@@ -14,6 +14,7 @@
 
 #define NUM_VERTICES_PER_CUBE 8
 #define NUM_VERT_IN_FACE 4
+#define NUM_FACES_BLOCK 6
 
 #define SCENE_WIDTH		512
 #define SCENE_DEPTH		512

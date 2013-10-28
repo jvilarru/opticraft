@@ -3,8 +3,6 @@
 #include "Globals.h"
 #include "Point.h"
 
-#define NUM_FACES_BLOCK 6
-
 class Block
 {
 public:
