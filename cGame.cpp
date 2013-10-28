@@ -21,8 +21,12 @@ bool cGame::Init()
 	glMatrixMode(GL_MODELVIEW);
 	glAlphaFunc(GL_GREATER, 0.05f);
 	glEnable(GL_ALPHA_TEST);
-
+	int start = glutGet(GLUT_ELAPSED_TIME);
 	basaur = Scene.Init();
+	int end = glutGet(GLUT_ELAPSED_TIME);
+	FILE* fd = fopen("time.txt","w+");
+	fprintf(fd,"%d",end-start);
+	fclose(fd);
 	return basaur;
 }
 
@@ -46,7 +50,13 @@ void cGame::ReadSpecialKeyboard(unsigned char specialkey, bool press) {
 }
 
 void cGame::ReadMouse(int button, int state, int x, int y) {
+
 }
+
+void cGame::MouseMove(int x, int y,bool pressed){
+
+}
+
 
 //Process
 bool cGame::Process() {
@@ -71,7 +81,6 @@ void cGame::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 	glLoadIdentity();
-	glClear(GL_COLOR_BUFFER_BIT);
 	Scene.Draw();
 	glutSwapBuffers();
 }

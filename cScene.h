@@ -1,7 +1,7 @@
 #pragma once
+//#include "GL/glew.h"
 #include "Globals.h"
 #include "Block.h"
-#include "GL/glew.h"
 
 class cScene {
 public:

@@ -1,4 +1,5 @@
 #include "cScene.h"
+#include "noise.h"
 
 cScene::cScene(void) {
 	sceneBlocks = (Block***)malloc(SCENE_HEIGHT*sizeof(Block**));
@@ -97,23 +98,39 @@ bool cScene::Init() {
 		scale /= 2.0;
 	}
 
+}
+
+bool cScene::Init() {
 	FILE* fd = fopen("debug.txt","w+");
-	float min,max;
-	min = max =0.0;
+	double minp,maxp;
+	minp = maxp =0.0;
+	int randomseed = 0;
+	double amplitude = SCENE_HEIGHT/4;
+	PerlinNoise noise = PerlinNoise(0.5,amplitude/4,amplitude,8,randomseed);
+	Point p;
 	if(fd!=nullptr){
-		for(int i=0;i<SCENE_WIDTH;i++){
-			for(int j=0;j<SCENE_DEPTH;j++){
-				//for(int k=vector[i*SCENE_DEPTH+j]
-				if(vector[i*SCENE_DEPTH+j] < min)min = vector[i*SCENE_DEPTH+j];
-				if(vector[i*SCENE_DEPTH+j] > max)max = vector[i*SCENE_DEPTH+j];
+		for(int x=0;x<SCENE_WIDTH;x++){
+			p.x = x;
+			for(int z=0;z<SCENE_DEPTH;z++){
+				p.z=z;
+				double y = amplitude + noise.GetHeight(x,z);
+				minp = min(y,minp);
+				maxp = max(y,maxp);
+				/*for(y=(int)SCENE_HEIGHT-1;y>(int)vector[x*SCENE_DEPTH+z];y--){
+					p.y=y;
+					sceneBlocks[y][z][x] = Block(p,0);
+					fprintf(fd,"%d",0);
+				}
+				for(;y>=0;y--){
+					p.y=y;
+					sceneBlocks[y][z][x] = Block(p,1);
+					fprintf(fd,"%d",1);
+				}*/
 			}
 		}
-		fprintf(fd,"min-->%.8f\n",min);
-		fprintf(fd,"max-->%.8f\n",max);
+		fprintf(fd,"min-->%f\nmax-->%f\n",minp,maxp);
 		fclose(fd);
-		res = false;
 	}
-	free(vector);
 
 	//generating a BLOCK in each position of the map
 	for (int i = 0; i < SCENE_HEIGHT; i++){
