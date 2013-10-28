@@ -2,10 +2,13 @@
 
 cScene::cScene(void) {
 	sceneBlocks = (Block***)malloc(SCENE_HEIGHT*sizeof(Block**));
+	sceneVertices = (Point***) malloc(SCENE_HEIGHT*sizeof(Point**));
 	for (int i = 0; i < SCENE_HEIGHT; i++){
 		sceneBlocks[i] = (Block**)malloc(SCENE_DEPTH*sizeof(Block*));
+		sceneVertices[i] = (Point**) malloc(SCENE_DEPTH*sizeof(Point*));
 		for (int j = 0; j < SCENE_DEPTH; j++) {
 			sceneBlocks[i][j] = (Block*)malloc(SCENE_WIDTH*sizeof(Block));
+			sceneVertices[i][j] = (Point*)malloc(SCENE_WIDTH*sizeof(Point));
 		}
 	}
 }
@@ -19,7 +22,7 @@ void cScene::Draw() {
 	for (int i = 0; i < SCENE_HEIGHT; ++i) {
 		for (int j = 0; j < SCENE_DEPTH; ++j) {
 			for (int k = 0; k < SCENE_WIDTH; ++k) {
-				sceneBlocks[i][j][k].drawBlock();
+				
 			}
 		}
 	}
@@ -111,10 +114,13 @@ bool cScene::Init() {
 		res = false;
 	}
 	free(vector);
+
+	//generating a BLOCK in each position of the map
 	for (int i = 0; i < SCENE_HEIGHT; i++){
 		for (int j = 0; j < SCENE_DEPTH; j++) {
 			for (int k = 0; k < SCENE_WIDTH; k++) {
-				sceneBlocks[i][j][k] = Block(Point(i,j,k));
+				sceneVertices[i][j][k] = Point((float) i, (float) j, (float) k);
+				sceneBlocks[i][j][k] = Block(k, i, j);
 			}
 		}
 	}
@@ -131,27 +137,13 @@ void cScene::initVBO() {
 	y el color de ese vertice (en este caso habrá que meter texturas tambien)
 	Por último se tendrá que crear el vector de indices */
 
-	//Generate one buffer per each cube, many of them will be empty probably
-	//but we must reserve this positions just in case the player place
-	//a block at this position
-	glGenBuffers(SCENE_HEIGHT*SCENE_DEPTH*SCENE_WIDTH, uidsVBO);
+	//Generate four buffers per each cube (vertices, normals, textures and indices
 
-	//TODO: dividir en 3 el vector
 	for(int i = 0; i<SCENE_HEIGHT; ++i) {
 		for(int j = 0; j<SCENE_DEPTH; ++j) {
 			for(int k = 0; k<SCENE_WIDTH; ++k) {
-				//TODO: generate the VBO por each block at the scene
-				// in case that the block didn't exists we don't have
-				// to do anything
+				
 			}
 		}
 	}
-}
-
-void cScene::addVBO() {
-	//TODO: pretty similar to the initVBO
-}
-
-void cScene::rmVBO(GLuint uid) {
-	//TODO: to be studied
 }

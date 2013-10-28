@@ -12,9 +12,7 @@ public:
 
 private:
 	void initVBO();
-	void addVBO();
-	void rmVBO(GLuint uid);
 	
-	GLuint *uidsVBO;
-	Block ***sceneBlocks;
+	Point ***sceneVertices;		//It contains all the vertices of the cubes
+	Block ***sceneBlocks;		//It contains all the blocks in the scene
 };
