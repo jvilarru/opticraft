@@ -1,6 +1,4 @@
 #include "Camera.h"
-#include "GL/glut.h"
-#include "Globals.h"
 
 Camera::Camera(void)
 {

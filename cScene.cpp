@@ -3,13 +3,10 @@
 
 cScene::cScene(void) {
 	sceneBlocks = (Block***)malloc(SCENE_HEIGHT*sizeof(Block**));
-	sceneVertices = (Point***) malloc(SCENE_HEIGHT*sizeof(Point**));
 	for (int i = 0; i < SCENE_HEIGHT; i++){
 		sceneBlocks[i] = (Block**)malloc(SCENE_DEPTH*sizeof(Block*));
-		sceneVertices[i] = (Point**) malloc(SCENE_DEPTH*sizeof(Point*));
 		for (int j = 0; j < SCENE_DEPTH; j++) {
 			sceneBlocks[i][j] = (Block*)malloc(SCENE_WIDTH*sizeof(Block));
-			sceneVertices[i][j] = (Point*)malloc(SCENE_WIDTH*sizeof(Point));
 		}
 	}
 }
@@ -150,8 +147,7 @@ bool cScene::Init() {
 	for (int i = 0; i < SCENE_HEIGHT; i++){
 		for (int j = 0; j < SCENE_DEPTH; j++) {
 			for (int k = 0; k < SCENE_WIDTH; k++) {
-				sceneVertices[i][j][k] = Point((float) i, (float) j, (float) k);
-				sceneBlocks[i][j][k] = Block(k, i, j);
+				sceneBlocks[i][j][k] = Block(0, 0, 0, 0);
 			}
 		}
 	}
@@ -164,25 +160,23 @@ void cScene::initVBO() {
 		for(int j = 0; j<SCENE_DEPTH; ++j) {
 			for(int k = 0; k<SCENE_WIDTH; ++k) {
 				//Make the float* with all the vertices and other one for the normals of each vertices
-				float *v = (float*) malloc(sizeof(float)*3*NUM_VERTICES_PER_CUBE);
 				//float *n = (float*) malloc(sizeof(float)*3*NUM_VERTICES_PER_CUBE); //I think is not needed if we sent the vertexs in the correct order
 				//float *t = (float*) malloc(sizeof(float*2*NUM_FACES_BLOCK*NUM_VERT_IN_FACE));
 
 				//Making v and n
-				Face f[NUM_FACES_BLOCK]; sceneBlocks[i][j][k].getFaces(f);
-				Vertex vert[NUM_VERT_IN_FACE];
-				f[0].getVertices(vert);	//TOP
-				for(int l=0; l<NUM_VERT_IN_FACE; ++l) {
-					v[l*3] = (float) vert[l].getX();
-					v[l*3+1] = (float) vert[l].getY();
-					v[l*3+2] = (float) vert[l].getZ();
-				}
-				f[1].getVertices(vert);	//BOTTOM
-				for(int l=0; l<NUM_VERT_IN_FACE; ++l) {
-					v[NUM_VERT_IN_FACE*3 + l*3] = (float) vert[l].getX();
-					v[NUM_VERT_IN_FACE*3 + l*3+1] = (float) vert[l].getY();
-					v[NUM_VERT_IN_FACE*3 + l*3+2] = (float) vert[l].getZ();
-				}
+				//We can hardcode this since our scene is composed only by cubes
+				float x = (float) k, y = (float) i, z = (float) j;
+				float v[3*NUM_VERT_IN_FACE*2]  = {
+					x, y+1.0, z+1.0,	//0	TOP
+					x+1.0, y+1.0, z+1.0,	//1
+					x+1.0, y+1.0, z,	//2
+					x, y+1.0, z,	//3
+					x, y, z+1.0,	//4	BOTTOM
+					x, y, z,	//5
+					x+1.0, y, z,	//6
+					x+1.0, y, z+1.0,	//7
+				};
+
 				//Now we have the 8 vertexs of the cube at v
 				GLuint indi[NUM_FACES_BLOCK*NUM_VERT_IN_FACE] = {
 					0, 1, 2, 3, //TOP

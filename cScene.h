@@ -13,6 +13,5 @@ private:
 	void initVBO();
 	void destroyVBO();	//to be called when program finishes
 	
-	Point ***sceneVertices;		//It contains all the vertices of the cubes
 	Block ***sceneBlocks;		//It contains all the blocks in the scene
 };

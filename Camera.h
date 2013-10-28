@@ -1,5 +1,6 @@
 #pragma once
 #include "Point.h"
+#include "Globals.h"
 
 class Camera
 {

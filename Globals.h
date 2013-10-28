@@ -3,15 +3,17 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include "GL/glew.h"
 #include "GL/glut.h"
-#include "GL/glxew.h"
 
 #pragma comment(lib, "glut32.lib")
+#pragma comment(lib, "glew32.lib")
 
 #define BLOCK_SIZE		1.0
 #define RENDER_DISTANCE 15
 
 #define NUM_VERTICES_PER_CUBE 8
+#define NUM_VERT_IN_FACE 4
 
 #define SCENE_WIDTH		512
 #define SCENE_DEPTH		512
