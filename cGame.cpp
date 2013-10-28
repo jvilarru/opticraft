@@ -32,6 +32,7 @@ bool cGame::Init()
 
 bool cGame::Loop() {
 	bool res = Process();
+	cam.updateCamera();
 	if(res) Render();
 	return res;
 }
@@ -62,15 +63,27 @@ void cGame::MouseMove(int x, int y,bool pressed){
 bool cGame::Process() {
 	if(keys[27])return false;
 	if(keys['W'] || keys['w'] || specialKeys[GLUT_KEY_UP]) {
+		Point camEye = cam.getCameraEye();
+		camEye.setZ(camEye.getZ()+1);
+		cam.setCamera(camEye, cam.getCameraCenter());
 		return true;
 	}
 	if(keys['A'] || keys['a'] || specialKeys[GLUT_KEY_LEFT]) {
+		Point camEye = cam.getCameraEye();
+		camEye.setX(camEye.getX()-1);
+		cam.setCamera(camEye, cam.getCameraCenter());
 		return true;
 	}
 	if(keys['S'] || keys['s'] || specialKeys[GLUT_KEY_DOWN]) {
+		Point camEye = cam.getCameraEye();
+		camEye.setZ(camEye.getZ()-1);
+		cam.setCamera(camEye, cam.getCameraCenter());
 		return true;
 	}
 	if(keys['D'] || keys['d'] || specialKeys[GLUT_KEY_RIGHT]) {
+		Point camEye = cam.getCameraEye();
+		camEye.setX(camEye.getX()+1);
+		cam.setCamera(camEye, cam.getCameraCenter());
 		return true;
 	}
 	return true;
@@ -82,5 +95,6 @@ void cGame::Render()
 	glClear(GL_COLOR_BUFFER_BIT);
 	glLoadIdentity();
 	Scene.Draw();
+	cam.updateCamera();
 	glutSwapBuffers();
 }

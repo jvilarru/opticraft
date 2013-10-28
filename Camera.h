@@ -12,6 +12,7 @@ public:
 	void setCamera(Point eye, Point center);
 	Point getCameraEye();
 	Point getCameraCenter();
+	void updateCamera();
 
 private:
 	Point eye;

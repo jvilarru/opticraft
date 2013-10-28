@@ -16,9 +16,9 @@
 #define NUM_VERT_IN_FACE 4
 #define NUM_FACES_BLOCK 6
 
-#define SCENE_WIDTH		256
-#define SCENE_DEPTH		256
-#define SCENE_HEIGHT	128
+#define SCENE_WIDTH		32
+#define SCENE_DEPTH		32
+#define SCENE_HEIGHT	32
 
 #define GAME_WIDTH	800
 #define GAME_HEIGHT	600
