@@ -115,6 +115,8 @@ void main(int argc, char** argv)
 	glutPassiveMotionFunc(AppMouseMove);
 	glutIdleFunc(AppIdle);
 
+	glewInit();
+
 	//Game initializations
 	if (!Game.Init()){
 		int msgboxID = MessageBox(

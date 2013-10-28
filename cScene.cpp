@@ -187,7 +187,12 @@ void cScene::initVBO() {
 					1, 7, 6, 2, //RIGHT
 				};
 
-				GLuint idVert, idIndi;
+				GLuint idVert = 0, idIndi = 0;
+
+				if(glGenBuffers == NULL) {
+					++x;
+				}
+
 				glGenBuffers(1, &idVert);
 				glGenBuffers(1, &idIndi);
 
