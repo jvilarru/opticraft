@@ -4,11 +4,14 @@
 #include <stdio.h>
 #include <math.h>
 #include "GL/glut.h"
+#include "GL/glxew.h"
 
 #pragma comment(lib, "glut32.lib")
 
 #define BLOCK_SIZE		1.0
 #define RENDER_DISTANCE 15
+
+#define NUM_VERTICES_PER_CUBE 8
 
 #define SCENE_WIDTH		512
 #define SCENE_DEPTH		512
