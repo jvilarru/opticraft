@@ -50,11 +50,11 @@ void AppMouse(int button, int state, int x, int y)
 }
 void AppIdle()
 {	
-	int timeAct = glutGet(GLUT_ELAPSED_TIME);
+	/*int timeAct = glutGet(GLUT_ELAPSED_TIME);
 	if(timeAct - inittime > (1000./FPS)) {
-		inittime = timeAct;
+		inittime = timeAct;*/
 		if(!Game.Loop()) Game.Finalize();
-	}
+	//}
 }
 
 void createWindow(bool fullScreen,int x,int y){

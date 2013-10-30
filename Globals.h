@@ -16,9 +16,15 @@
 #define NUM_VERT_IN_FACE 4
 #define NUM_FACES_BLOCK 6
 
-#define SCENE_WIDTH		32
-#define SCENE_DEPTH		32
-#define SCENE_HEIGHT	32
+#define CHUNK_WIDTH		16
+#define CHUNK_DEPTH		16
+#define	CHUNK_HEIGHT	128
+
+#define TOTAL_CHUNKS_LOADED	16
+
+#define SCENE_WIDTH		64
+#define SCENE_DEPTH		64
+#define SCENE_HEIGHT	64
 
 #define GAME_WIDTH	800
 #define GAME_HEIGHT	600

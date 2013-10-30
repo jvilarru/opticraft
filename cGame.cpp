@@ -2,6 +2,7 @@
 
 cGame::cGame(void)
 {
+	drawGlut = false;
 }
 
 cGame::~cGame(void){
@@ -9,8 +10,8 @@ cGame::~cGame(void){
 
 bool cGame::Init()
 {
-	Point eye(-SCENE_WIDTH*2, SCENE_HEIGHT*3, -SCENE_DEPTH*2);
-	Point center(SCENE_WIDTH, SCENE_HEIGHT, 0.0);
+	Point eye(SCENE_WIDTH+20, SCENE_HEIGHT+20, SCENE_DEPTH+20);
+	Point center(SCENE_WIDTH/2, SCENE_HEIGHT/2, SCENE_DEPTH/2);
 	Point up(0.0, 1.0, 0.0);
 	bool basaur;
 	//Graphics initialization
@@ -21,6 +22,7 @@ bool cGame::Init()
 	glMatrixMode(GL_MODELVIEW);
 	glAlphaFunc(GL_GREATER, 0.05f);
 	glEnable(GL_ALPHA_TEST);
+
 	int start = glutGet(GLUT_ELAPSED_TIME);
 	basaur = Scene.Init();
 	int end = glutGet(GLUT_ELAPSED_TIME);
@@ -32,7 +34,6 @@ bool cGame::Init()
 
 bool cGame::Loop() {
 	bool res = Process();
-	cam.updateCamera();
 	if(res) Render();
 	return res;
 }
@@ -94,7 +95,10 @@ void cGame::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 	glLoadIdentity();
+	glPushMatrix();
+	glColor3f(1,1,1);
 	Scene.Draw();
-	cam.updateCamera();
+	glPopMatrix();
+	//cam.updateCamera();
 	glutSwapBuffers();
 }

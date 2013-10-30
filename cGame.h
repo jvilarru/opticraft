@@ -32,4 +32,6 @@ private:
 	unsigned char specialKeys[256];
 	cScene Scene;
 	Camera cam;
+
+	bool drawGlut;
 };

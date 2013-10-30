@@ -13,5 +13,8 @@ private:
 	void initVBO();
 	void destroyVBO();	//to be called when program finishes
 	
-	Block ***sceneBlocks;		//It contains all the blocks in the scene
+	Block sceneBlocks;
+
+	/*GLuint idVertices[SCENE_HEIGHT];
+	GLuint idIndices[SCENE_HEIGHT];*/
 };

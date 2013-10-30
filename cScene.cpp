@@ -2,42 +2,27 @@
 #include "noise.h"
 
 cScene::cScene(void) {
-	sceneBlocks = (Block***)malloc(SCENE_HEIGHT*sizeof(Block**));
-	for (int i = 0; i < SCENE_HEIGHT; i++){
-		sceneBlocks[i] = (Block**)malloc(SCENE_DEPTH*sizeof(Block*));
-		for (int j = 0; j < SCENE_DEPTH; j++) {
-			sceneBlocks[i][j] = (Block*)malloc(SCENE_WIDTH*sizeof(Block));
-		}
-	}
 }
 
 cScene::~cScene(void) {
-	free(sceneBlocks);
 }
 
-
 void cScene::Draw() {
-	for (int i = 0; i < SCENE_HEIGHT; ++i) {
-		for (int j = 0; j < SCENE_DEPTH; ++j) {
-			for (int k = 0; k < SCENE_WIDTH; ++k) {
-				GLuint idVert = sceneBlocks[i][j][k].getVBOIDvert(), idIndi = sceneBlocks[i][j][k].getVBOIDindi();
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER, sceneBlocks.getVBOIDvert());
+	glVertexPointer(3, GL_FLOAT, 0, (GLvoid*)0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sceneBlocks.getVBOIDindi());
 
-				//vertices
-				glEnableClientState(GL_VERTEX_ARRAY);
-				glBindBuffer(GL_ARRAY_BUFFER, idVert);
-				glVertexPointer(3, GL_FLOAT, 0, (GLvoid*)0);
-
-				//indices
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idIndi);
-				glDrawElements(GL_QUADS, NUM_FACES_BLOCK*NUM_VERT_IN_FACE, GL_UNSIGNED_INT, (GLvoid*)0);
-
-				//disabling states and unbinding buffers
-				glDisableClientState(GL_VERTEX_ARRAY);
-				glBindBuffer(GL_ARRAY_BUFFER, 0);
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-			}
-		}
+	for(int y = 0; y<SCENE_HEIGHT; ++y) {
+		glPushMatrix();
+		glTranslatef(0.0, y, 0.0);
+		glDrawElements(GL_QUADS, NUM_FACES_BLOCK*NUM_VERT_IN_FACE*SCENE_WIDTH*SCENE_DEPTH, GL_UNSIGNED_INT, (GLvoid*)0);
+		glPopMatrix();
 	}
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 float frand(){
@@ -88,29 +73,6 @@ void DiamondSquare(float* vector, int stepsize, double scale) {
     }
 }
 
-//bool cScene::Init() {
-//	bool res = true;
-//	float *vector;
-//	vector = (float*)malloc(SCENE_WIDTH*SCENE_DEPTH*sizeof(float));
-//	/*for (int i = 0; i < SCENE_WIDTH*SCENE_DEPTH; i++){
-//		vector[i] = 0.0;
-//	}*/
-//	int featureSize = 8;
-//	for( int z = 0; z < SCENE_DEPTH; z += featureSize) {
-//		for (int x = 0; x < SCENE_WIDTH; x += featureSize) {
-//			setSample(vector,x, z, frand());  //IMPORTANT: frand() is a random function that returns a value between -1 and 1.
-//		}
-//	}
-//	int samplesize = featureSize;
-//	double scale = 1.0;
-//	while (samplesize > 1) {
-//		DiamondSquare(vector,samplesize, scale);
-//		samplesize /= 2;
-//		scale /= 2.0;
-//	}
-//
-//}
-
 bool cScene::Init() {
 	FILE* fd = fopen("debug.txt","w+");
 	double minp,maxp;
@@ -143,90 +105,67 @@ bool cScene::Init() {
 		fclose(fd);
 	}
 
-	//generating a BLOCK in each position of the map
-	for (int i = 0; i < SCENE_HEIGHT; i++){
-		for (int j = 0; j < SCENE_DEPTH; j++) {
-			for (int k = 0; k < SCENE_WIDTH; k++) {
-				sceneBlocks[i][j][k] = Block(0, 0, 0, 0);
-			}
-		}
-	}
 	initVBO();
 	return true;
 }
 
 void cScene::initVBO() {
-	for(int i = 0; i<SCENE_HEIGHT; ++i) {
-		for(int j = 0; j<SCENE_DEPTH; ++j) {
-			for(int k = 0; k<SCENE_WIDTH; ++k) {
-				//Make the float* with all the vertices and other one for the normals of each vertices
-				//float *n = (float*) malloc(sizeof(float)*3*NUM_VERTICES_PER_CUBE); //I think is not needed if we sent the vertexs in the correct order
-				//float *t = (float*) malloc(sizeof(float*2*NUM_FACES_BLOCK*NUM_VERT_IN_FACE));
+	GLuint idV, idI;
 
-				//Making v and n
-				//We can hardcode this since our scene is composed only by cubes
-				float x = (float) k, y = (float) i, z = (float) j;
-				float v[3*NUM_VERT_IN_FACE*2]  = {
-					x, y+1.0, z+1.0,	//0	TOP
-					x+1.0, y+1.0, z+1.0,	//1
-					x+1.0, y+1.0, z,	//2
-					x, y+1.0, z,	//3
-					x, y, z+1.0,	//4	BOTTOM
-					x, y, z,	//5
-					x+1.0, y, z,	//6
-					x+1.0, y, z+1.0,	//7
-				};
+	glGenBuffers(1, &idV);
+	glGenBuffers(1, &idI);
 
-				//Now we have the 8 vertexs of the cube at v
-				GLuint indi[NUM_FACES_BLOCK*NUM_VERT_IN_FACE] = {
-					0, 1, 2, 3, //TOP
-					4, 5, 6, 7, //BOTTOM
-					1, 0, 4, 7, //FRONT
-					6, 5, 3, 2, //BACK
-					0, 3, 5, 4, //LEFT
-					1, 7, 6, 2, //RIGHT
-				};
-
-				GLuint idVert = 0, idIndi = 0;
-
-				if(glGenBuffers == NULL) {
-					++x;
-				}
-
-				glGenBuffers(1, &idVert);
-				glGenBuffers(1, &idIndi);
-
-				//sending vertices to GPU
-				glBindBuffer(GL_ARRAY_BUFFER, idVert);
-				glBufferData(GL_ARRAY_BUFFER, sizeof(float)*3*NUM_VERTICES_PER_CUBE, v, GL_STATIC_DRAW);
-				glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-				//sending vertices indices to GPU
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idIndi);
-				glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*NUM_FACES_BLOCK*NUM_VERT_IN_FACE, indi, GL_STATIC_DRAW);
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-				//TODO: send textures as GL_DYNAMIC_DRAW
-
-				sceneBlocks[i][j][k].setVBOID(idVert, 0, 0, idIndi);
+	float v[SCENE_DEPTH*SCENE_WIDTH * 3*NUM_VERTICES_PER_CUBE];
+	GLuint i[SCENE_DEPTH*SCENE_WIDTH * 3 * NUM_VERTICES_PER_CUBE];
+	float zaux=0,xaux;
+	for(int z = 0; z<SCENE_DEPTH; ++z) {
+		xaux=0;
+		for(int x = 0; x<SCENE_WIDTH; ++x) {
+			float vAux[3*NUM_VERTICES_PER_CUBE] = {
+				xaux, 1.0, zaux+1.0,	//0	TOP
+				xaux+1.0, 1.0, zaux+1.0,	//1
+				xaux+1.0, 1.0, zaux,	//2
+				xaux, 1.0, zaux,	//3
+				xaux, 0.0, zaux+1.0,	//4	BOTTOM
+				xaux, 0.0, zaux,	//5
+				xaux+1.0, 0.0, zaux,	//6
+				xaux+1.0, 0.0, zaux+1.0,	//7
+			};
+			unsigned int base = (z*SCENE_WIDTH + x)*NUM_VERTICES_PER_CUBE;
+			GLuint iAux[3 * NUM_VERTICES_PER_CUBE] = {
+				base+0, base+1, base+2, base+3, //TOP
+				base+4, base+5, base+6, base+7, //BOTTOM
+				base+1, base+0, base+4, base+7, //FRONT
+				base+6, base+5, base+3, base+2, //BACK
+				base+0, base+3, base+5, base+4, //LEFT
+				base+1, base+7, base+6, base+2, //RIGHT
+			};
+			for(int l=0; l<3*NUM_VERTICES_PER_CUBE; ++l) {
+				v[(z*SCENE_WIDTH+x)*24 + l] = vAux[l];
+				i[(z*SCENE_WIDTH+x)*24 + l] = iAux[l];
 			}
+		
+			xaux += 1.0;
 		}
+		
+		zaux += 1.0;
 	}
+
+	//sending vertices to GPU
+	glBindBuffer(GL_ARRAY_BUFFER, idV);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*3*NUM_VERTICES_PER_CUBE*SCENE_WIDTH*SCENE_DEPTH,v, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	//sending vertices indices to GPU
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idI);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*NUM_FACES_BLOCK*NUM_VERT_IN_FACE*SCENE_WIDTH*SCENE_DEPTH,i, GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+	sceneBlocks = Block(idV,0,0,idI);
 }
 
 void cScene::destroyVBO() {
-	for(int i = 0; i<SCENE_HEIGHT; ++i) {
-		for (int j = 0; j < SCENE_DEPTH; j++) {
-			for (int k = 0; k < SCENE_WIDTH; k++) {
-				GLuint idVert = sceneBlocks[i][j][k].getVBOIDvert(), idIndi = sceneBlocks[i][j][k].getVBOIDindi();
-				if(idVert != 0) {
-					glDeleteBuffers(1, &idVert);
-				}
-				if(idIndi != 0) {
-					glDeleteBuffers(1, &idIndi);
-				}
-				sceneBlocks[i][j][k].setVBOID(0, 0, 0, 0);
-			}
-		}
-	}
+	GLuint idV = sceneBlocks.getVBOIDvert(), idI = sceneBlocks.getVBOIDindi();
+	glDeleteBuffers(1, &idV);
+	glDeleteBuffers(1, &idI);
 }
