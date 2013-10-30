@@ -1,5 +1,4 @@
 #pragma once
-
 #include "cScene.h"
 #include "Camera.h"
 #include <map>
@@ -27,11 +26,13 @@ public:
 	//Output
 	void Render();
 
+	int inittime;
+	FILE* fd;
+
 private:
 	unsigned char keys[256];
 	unsigned char specialKeys[256];
 	cScene Scene;
 	Camera cam;
-
 	bool drawGlut;
 };
