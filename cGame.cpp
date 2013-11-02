@@ -10,9 +10,10 @@ cGame::~cGame(void){
 
 bool cGame::Init()
 {
-	Point eye(SCENE_WIDTH+20, SCENE_HEIGHT+20, SCENE_DEPTH+20);
-	Point center(SCENE_WIDTH/2, SCENE_HEIGHT/2, SCENE_DEPTH/2);
-	Point up(0.0, 1.0, 0.0);
+	fd = fopen("debug.txt","w+");
+	Point eye = Point(SCENE_WIDTH+20, SCENE_HEIGHT+20, SCENE_DEPTH+20);
+	Point center = Point(SCENE_WIDTH/2, SCENE_HEIGHT/2, SCENE_DEPTH/2);
+	Point up = Point(0.0f, 1.0f, 0.0f);
 	bool basaur;
 
 	//Graphics initialization
@@ -36,7 +37,10 @@ bool cGame::Init()
 	glLightfv(GL_LIGHT0, GL_SPECULAR, specLight);
 	glLightfv(GL_LIGHT0, GL_AMBIENT, ambiLight);
 
-	basaur = Scene.Init();	
+	int start = glutGet(GLUT_ELAPSED_TIME);
+	basaur = Scene.Init(fd);
+	int end = glutGet(GLUT_ELAPSED_TIME);
+	fprintf(fd,"%d",end-start);
 	return basaur;
 }
 
@@ -47,6 +51,7 @@ bool cGame::Loop() {
 }
 
 void cGame::Finalize() {
+	fclose(fd);
 	exit(0);
 }
 
@@ -73,25 +78,25 @@ bool cGame::Process() {
 	if(keys[27])return false;
 	if(keys['W'] || keys['w'] || specialKeys[GLUT_KEY_UP]) {
 		Point camEye = cam.getCameraEye();
-		camEye.setZ(camEye.getZ()+1);
+		camEye.z=(camEye.z+1);
 		cam.setCamera(camEye, cam.getCameraCenter());
 		return true;
 	}
 	if(keys['A'] || keys['a'] || specialKeys[GLUT_KEY_LEFT]) {
 		Point camEye = cam.getCameraEye();
-		camEye.setX(camEye.getX()-1);
+		camEye.x=(camEye.x-1);
 		cam.setCamera(camEye, cam.getCameraCenter());
 		return true;
 	}
 	if(keys['S'] || keys['s'] || specialKeys[GLUT_KEY_DOWN]) {
 		Point camEye = cam.getCameraEye();
-		camEye.setZ(camEye.getZ()-1);
+		camEye.z=(camEye.z-1);
 		cam.setCamera(camEye, cam.getCameraCenter());
 		return true;
 	}
 	if(keys['D'] || keys['d'] || specialKeys[GLUT_KEY_RIGHT]) {
 		Point camEye = cam.getCameraEye();
-		camEye.setX(camEye.getX()+1);
+		camEye.x=(camEye.x+1);
 		cam.setCamera(camEye, cam.getCameraCenter());
 		return true;
 	}

@@ -4,9 +4,7 @@
 #include <stdio.h>
 #include <math.h>
 #include "GL/glew.h"
-#include "GL/glut.h"
-
-#pragma comment(lib, "glut32.lib")
+#include "GL/freeglut.h"
 #pragma comment(lib, "glew32.lib")
 
 #define BLOCK_SIZE		1.0

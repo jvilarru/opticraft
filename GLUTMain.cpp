@@ -1,11 +1,11 @@
-#include "Globals.h"
+#include "utils.h"
 #include "cGame.h"
 
 //Delete console
 #pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
 
-cGame Game;
 int inittime;
+cGame Game;
 
 // Disable or enable the [X] button in top-right corne
 BOOL EnableCloseButton(const HWND hwnd, const BOOL bState)
@@ -48,13 +48,12 @@ void AppMouse(int button, int state, int x, int y)
 {
 	Game.ReadMouse(button,state,x,y);
 }
-void AppIdle()
-{	
-	/*int timeAct = glutGet(GLUT_ELAPSED_TIME);
-	if(timeAct - inittime > (1000./FPS)) {
-		inittime = timeAct;*/
+void AppIdle() {
+	int timeAct = glutGet(GLUT_ELAPSED_TIME);
+	if(timeAct-inittime >= FPS/1000.0){
+		inittime = timeAct;
 		if(!Game.Loop()) Game.Finalize();
-	//}
+	}
 }
 
 void createWindow(bool fullScreen,int x,int y){
@@ -68,8 +67,8 @@ void createWindow(bool fullScreen,int x,int y){
 		glutInitWindowSize(GAME_WIDTH,GAME_HEIGHT);
 		glutCreateWindow("MainCraft");
 		HWND windowHandle = FindWindow(NULL,"MainCraft");
-		HICON hIcon = (HICON)LoadImage(NULL, "images\\/window_logo.ico", IMAGE_ICON, 32, 32, LR_LOADFROMFILE);
-		SendMessage(windowHandle,WM_SETICON, ICON_BIG, (LPARAM)hIcon );
+		//HICON hIcon = (HICON)LoadImage(NULL, "images\\/window_logo.ico", IMAGE_ICON, 32, 32, LR_LOADFROMFILE);
+		//SendMessage(windowHandle,WM_SETICON, ICON_BIG, (LPARAM)hIcon );
 		//EnableCloseButton(windowHandle, FALSE);
 	}
 }

@@ -7,14 +7,15 @@ public:
 	cScene(void);
 	virtual ~cScene(void);
 	void Draw();
-	bool Init();
+	bool Init(FILE* fd);
 
 private:
+	GLuint idV, idI;
 	void initVBO();
 	void destroyVBO();	//to be called when program finishes
 	
 	Block sceneBlocks;
-
-	/*GLuint idVertices[SCENE_HEIGHT];
-	GLuint idIndices[SCENE_HEIGHT];*/
+	char mapa[SCENE_HEIGHT][SCENE_WIDTH][SCENE_DEPTH];
+	int heightMap[SCENE_WIDTH][SCENE_DEPTH];
+	int maxHeight,minHeight;
 };
