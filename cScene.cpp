@@ -50,6 +50,33 @@ bool cScene::Init(FILE* fd) {
 	}
 	fprintf(fd,"min-->%d\nmax-->%d\n",minHeight,maxHeight);
 	initVBO();
+
+	unsigned long len = 0;
+	
+	if(shader.loadShader("vertexShader.vert", &len, VERTEX_SHADER) != OK) return false;
+	if(shader.loadShader("fragmentShader.frag", &len, FRAGMENT_SHADER) != OK) return false;
+	
+	if(shader.compileShader(VERTEX_SHADER) != OK) {
+		GLchar *log = shader.getCompilationLog(VERTEX_SHADER);
+		return false;
+	}
+	if(shader.compileShader(FRAGMENT_SHADER) != OK) {
+		GLchar *log = shader.getCompilationLog(FRAGMENT_SHADER);
+		return false;
+	}
+	
+	if(shader.linkShader(VERTEX_SHADER) != OK) {
+		GLchar *log = shader.getLinkingLog(VERTEX_SHADER);
+		return false;
+	}
+	if(shader.linkShader(FRAGMENT_SHADER) != OK) {
+		GLchar *log = shader.getLinkingLog(FRAGMENT_SHADER);
+		return false;
+	}
+	
+	if(shader.useShader(VERTEX_SHADER) != OK) return false;
+	if(shader.useShader(FRAGMENT_SHADER) != OK) return false;
+
 	return true;
 }
 

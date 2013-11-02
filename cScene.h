@@ -1,6 +1,7 @@
 #pragma once
 #include "Globals.h"
 #include "Block.h"
+#include "Shader.h"
 
 class cScene {
 public:
@@ -18,4 +19,6 @@ private:
 	char mapa[SCENE_HEIGHT][SCENE_WIDTH][SCENE_DEPTH];
 	int heightMap[SCENE_WIDTH][SCENE_DEPTH];
 	int maxHeight,minHeight;
+
+	Shader shader;
 };
