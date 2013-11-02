@@ -9,3 +9,5 @@
 !*.dll
 !GL
 !GL/*
+!*.vert
+!*.frag
