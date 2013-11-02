@@ -14,7 +14,9 @@ bool cGame::Init()
 	Point center(SCENE_WIDTH/2, SCENE_HEIGHT/2, SCENE_DEPTH/2);
 	Point up(0.0, 1.0, 0.0);
 	bool basaur;
+
 	//Graphics initialization
+	//CAMERA
 	glClearColor(0.0f,0.0f,0.0f,0.0f);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -22,13 +24,19 @@ bool cGame::Init()
 	glMatrixMode(GL_MODELVIEW);
 	glAlphaFunc(GL_GREATER, 0.05f);
 	glEnable(GL_ALPHA_TEST);
+	//LIGHTNING
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	GLfloat lightPos[] = { SCENE_WIDTH/2, SCENE_HEIGHT*2, SCENE_DEPTH/2, 0};
+	GLfloat specLight[] = { 0, 1, 0, 0};
+	GLfloat ambiLight[] = { 1, 1, 1, 0};
+	GLfloat diffLight[] = { 0.5, 0, 0, 0};
+	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffLight);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, specLight);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, ambiLight);
 
-	int start = glutGet(GLUT_ELAPSED_TIME);
-	basaur = Scene.Init();
-	int end = glutGet(GLUT_ELAPSED_TIME);
-	FILE* fd = fopen("time.txt","w+");
-	fprintf(fd,"%d",end-start);
-	fclose(fd);
+	basaur = Scene.Init();	
 	return basaur;
 }
 
