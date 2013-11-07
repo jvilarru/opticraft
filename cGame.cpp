@@ -12,6 +12,7 @@ bool cGame::Init()
 {
 	fd = fopen("debug.txt","w+");
 	Point eye = Point(SCENE_WIDTH+20, SCENE_HEIGHT+20, SCENE_DEPTH+20);
+	/*Point eye = Point(-(SCENE_WIDTH+20), -(SCENE_HEIGHT+20), -(SCENE_DEPTH+20));*/
 	Point center = Point(SCENE_WIDTH/2, SCENE_HEIGHT/2, SCENE_DEPTH/2);
 	Point up = Point(0.0f, 1.0f, 0.0f);
 	bool basaur;
@@ -25,13 +26,23 @@ bool cGame::Init()
 	glMatrixMode(GL_MODELVIEW);
 	glAlphaFunc(GL_GREATER, 0.05f);
 	glEnable(GL_ALPHA_TEST);
+	//MATERIAL
+	glEnable(GL_COLOR_MATERIAL);
+	GLfloat matAmbientDiffuse[] = {0.0, 0.5, 0.0, 1.0};
+	GLfloat matSpecular[] = {0.0, 0.0, 0.5, 1.0};
+	GLfloat matEmission[] = {0.5, 0.0, 0.0, 1.0};
+	GLfloat matShininnes = 54;
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matAmbientDiffuse);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, matSpecular);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, matEmission);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &matShininnes);
 	//LIGHTNING
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
-	GLfloat lightPos[] = { SCENE_WIDTH/2, SCENE_HEIGHT*2, SCENE_DEPTH/2, 0};
-	GLfloat specLight[] = { 0, 1, 0, 0};
-	GLfloat ambiLight[] = { 1, 1, 1, 0};
-	GLfloat diffLight[] = { 0.5, 0, 0, 0};
+	GLfloat lightPos[] = { SCENE_WIDTH/2, SCENE_HEIGHT*2, SCENE_DEPTH/2};
+	GLfloat specLight[] = { 0, 1, 0, 1.0};
+	GLfloat ambiLight[] = { 0, 1, 0, 1.0};
+	GLfloat diffLight[] = { 0.5, 0, 0, 1.0};
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffLight);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, specLight);
@@ -112,6 +123,6 @@ void cGame::Render()
 	glColor3f(1,1,1);
 	Scene.Draw();
 	glPopMatrix();
-	//cam.updateCamera();
+	cam.updateCamera();
 	glutSwapBuffers();
 }

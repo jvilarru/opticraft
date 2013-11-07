@@ -8,9 +8,21 @@ cScene::~cScene(void) {
 }
 
 void cScene::Draw() {
+	//Paint Light focus
+	glPushMatrix();
+	glColor3f(1.0, 1.0, 0.0);
+	glTranslatef(SCENE_WIDTH/2,SCENE_HEIGHT+SCENE_HEIGHT/2, SCENE_DEPTH/2);
+	glutSolidSphere(10, 10, 10);
+	glPopMatrix();
+
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glBindBuffer(GL_ARRAY_BUFFER, idV);
 	glVertexPointer(3, GL_FLOAT, 0, (GLvoid*)0);
+
+	glEnableClientState(GL_NORMAL_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER, idN);
+    glNormalPointer(GL_FLOAT, 0, (GLvoid*)0);
+
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idI);
 
 	for(int y = 0; y<SCENE_HEIGHT; ++y) {
@@ -21,6 +33,7 @@ void cScene::Draw() {
 	}
 
 	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
@@ -48,8 +61,9 @@ bool cScene::Init(FILE* fd) {
 			}
 		}
 	}
-	fprintf(fd,"min-->%d\nmax-->%d\n",minHeight,maxHeight);
+	//fprintf(fd,"min-->%d\nmax-->%d\n",minHeight,maxHeight);
 	initVBO();
+	initNormals();
 
 	unsigned long len = 0;
 	
@@ -75,7 +89,7 @@ bool cScene::Init(FILE* fd) {
 	}
 	
 	if(shader.useShader(VERTEX_SHADER) != OK) return false;
-	if(shader.useShader(FRAGMENT_SHADER) != OK) return false;
+	//if(shader.useShader(FRAGMENT_SHADER) != OK) return false;
 
 	return true;
 }
@@ -100,6 +114,16 @@ void cScene::initVBO() {
 				xaux+1.0f, 0.0f, zaux,	//6
 				xaux+1.0f, 0.0f, zaux+1.0f,	//7
 			};
+			float nAux[3*NUM_VERTICES_PER_CUBE] = {
+				0.0, 1.0, 0.0,
+				0.0, 1.0, 0.0,
+				0.0, 1.0, 0.0,
+				0.0, 1.0, 0.0,
+				0.0, -1.0, 0.0,
+				0.0, -1.0, 0.0,
+				0.0, -1.0, 0.0,
+				0.0, -1.0, 0.0,
+			};
 			unsigned int base = (z*SCENE_WIDTH + x)*NUM_VERTICES_PER_CUBE;
 			GLuint iAux[3 * NUM_VERTICES_PER_CUBE] = {
 				base+0, base+1, base+2, base+3, //TOP
@@ -113,7 +137,7 @@ void cScene::initVBO() {
 				v[(z*SCENE_WIDTH+x)*24 + l] = vAux[l];
 				i[(z*SCENE_WIDTH+x)*24 + l] = iAux[l];
 			}
-		
+
 			xaux += 1.0;
 		}
 		
@@ -133,5 +157,34 @@ void cScene::initVBO() {
 
 void cScene::destroyVBO() {
 	glDeleteBuffers(1, &idV);
+	glDeleteBuffers(1, &idN);
 	glDeleteBuffers(1, &idI);
+}
+
+void cScene::initNormals() {
+	//NORMALS
+	glGenBuffers(1, &idN);
+
+	float *n = (float *) malloc(sizeof(float) * SCENE_DEPTH*SCENE_WIDTH* 3 *NUM_VERTICES_PER_CUBE * 3);
+
+	for(int z = 0; z<SCENE_DEPTH; ++z) {
+		for(int x = 0; x<SCENE_WIDTH; ++x) {
+			float nAux[3*NUM_VERTICES_PER_CUBE* 3] = {
+				0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0,	//TOP
+				0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0,	//BOTTOM
+				0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1,	//FRONT
+				0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,	//BACK
+				-1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0,	//LEFT
+				1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0,	//RIGHT
+			};
+			for(int l=0; l<3*NUM_VERTICES_PER_CUBE*3; l++) {
+				n[(z*SCENE_WIDTH+x)*24 + l] = nAux[l];
+			}
+		}
+	}
+
+	//sending normals to GPU
+	glBindBuffer(GL_ARRAY_BUFFER, idN);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float)*3*NUM_VERTICES_PER_CUBE*SCENE_WIDTH*SCENE_DEPTH*3,n, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
