@@ -118,16 +118,6 @@ void cScene::initVBO() {
 				xaux+1.0f, 0.0f, zaux,	//6
 				xaux+1.0f, 0.0f, zaux+1.0f,	//7
 			};
-			float nAux[3*NUM_VERTICES_PER_CUBE] = {
-				0.0, 1.0, 0.0,
-				0.0, 1.0, 0.0,
-				0.0, 1.0, 0.0,
-				0.0, 1.0, 0.0,
-				0.0, -1.0, 0.0,
-				0.0, -1.0, 0.0,
-				0.0, -1.0, 0.0,
-				0.0, -1.0, 0.0,
-			};
 			unsigned int base = (z*SCENE_WIDTH + x)*NUM_VERTICES_PER_CUBE;
 			GLuint iAux[3 * NUM_VERTICES_PER_CUBE] = {
 				base+0, base+1, base+2, base+3, //TOP

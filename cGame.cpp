@@ -11,12 +11,12 @@ cGame::~cGame(void){
 bool cGame::Init()
 {
 	fd = fopen("debug.txt","w+");
-	Point eye = Point(SCENE_WIDTH+20, SCENE_HEIGHT+20, SCENE_DEPTH+20);
-	/*Point eye = Point(-(SCENE_WIDTH+20), -(SCENE_HEIGHT+20), -(SCENE_DEPTH+20));*/
+	Point eye = Point(-50, SCENE_HEIGHT/2, -50);
 	Point center = Point(SCENE_WIDTH/2, SCENE_HEIGHT/2, SCENE_DEPTH/2);
 	Point up = Point(0.0f, 1.0f, 0.0f);
 	bool basaur;
 
+	/***********************************************************************************/
 	//Graphics initialization
 	//CAMERA
 	glClearColor(0.0f,0.0f,0.0f,0.0f);
@@ -51,6 +51,8 @@ bool cGame::Init()
 	glLightfv(GL_LIGHT0, GL_SPECULAR, specLight);
 	glLightfv(GL_LIGHT0, GL_AMBIENT, ambiLight);
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientModel);
+	//glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, 1.0);
+	/**********************************************************************************/
 
 	int start = glutGet(GLUT_ELAPSED_TIME);
 	basaur = Scene.Init(fd);
