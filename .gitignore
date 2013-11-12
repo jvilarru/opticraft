@@ -11,3 +11,4 @@
 !GL/*
 !*.vert
 !*.frag
+!*.geom

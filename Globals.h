@@ -48,3 +48,9 @@
 #define ERR_NONEXISTENT_KIND_SHADER 4
 #define ERR_COMPILE 5
 #define ERR_LINK 6
+
+//MOVEMENT
+#define UP 0
+#define DOWN 1
+#define LEFT 2
+#define RIGHT 3

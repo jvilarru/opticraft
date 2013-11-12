@@ -1,5 +1,6 @@
 #pragma once
 #include "Globals.h"
+#include "Point.h"
 
 class entity {
 public:
