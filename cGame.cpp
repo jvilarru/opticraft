@@ -28,11 +28,13 @@ bool cGame::Init()
 	glEnable(GL_ALPHA_TEST);
 	//MATERIAL
 	glEnable(GL_COLOR_MATERIAL);
-	GLfloat matAmbientDiffuse[] = {0.0, 0.5, 0.0, 1.0};
-	GLfloat matSpecular[] = {0.0, 0.0, 0.5, 1.0};
-	GLfloat matEmission[] = {0.5, 0.0, 0.0, 1.0};
-	GLfloat matShininnes = 54;
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, matAmbientDiffuse);
+	GLfloat matAmbient[] = {0.4, 0.4, 0.4, 1.0};
+	GLfloat matDiffuse[] = {1.0, 1.0, 0.0, 1.0};
+	GLfloat matSpecular[] = {0.0, 0.0, 1.0, 1.0};
+	GLfloat matEmission[] = {0.0, 0.0, 0.0, 1.0};
+	GLfloat matShininnes = 20;
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, matAmbient);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, matDiffuse);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, matSpecular);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, matEmission);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &matShininnes);
@@ -40,13 +42,15 @@ bool cGame::Init()
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 	GLfloat lightPos[] = { SCENE_WIDTH/2, SCENE_HEIGHT*2, SCENE_DEPTH/2};
-	GLfloat specLight[] = { 0, 1, 0, 1.0};
-	GLfloat ambiLight[] = { 0, 1, 0, 1.0};
-	GLfloat diffLight[] = { 0.5, 0, 0, 1.0};
+	GLfloat specLight[] = { 1.0, 1.0, 1.0, 1.0};
+	GLfloat ambiLight[] = { 0, 0, 0, 1.0};
+	GLfloat diffLight[] = { 1.0, 1.0, 1.0, 1.0};
+	GLfloat ambientModel[] = {.5, .5, .5, 1.0};
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffLight);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, specLight);
 	glLightfv(GL_LIGHT0, GL_AMBIENT, ambiLight);
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientModel);
 
 	int start = glutGet(GLUT_ELAPSED_TIME);
 	basaur = Scene.Init(fd);

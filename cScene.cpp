@@ -2,6 +2,9 @@
 #include "noise.h"
 
 cScene::cScene(void) {
+	for(int i = 0; i<SCENE_HEIGHT; ++i) {
+		nCubes[i] = 0;
+	}
 }
 
 cScene::~cScene(void) {
@@ -52,6 +55,7 @@ bool cScene::Init(FILE* fd) {
 			int y;
 			for (y = 0; y < alt; y++){
 				mapa[y][x][z] = 1;
+				nCubes[y]++;
 			}
 			minHeight = min(y,minHeight);
 			maxHeight = max(y,maxHeight);
