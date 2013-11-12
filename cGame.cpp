@@ -11,8 +11,8 @@ cGame::~cGame(void){
 bool cGame::Init()
 {
 	fd = fopen("debug.txt","w+");
-	Point eye = Point(-50, SCENE_HEIGHT/2, -50);
-	Point center = Point(SCENE_WIDTH/2, SCENE_HEIGHT/2, SCENE_DEPTH/2);
+	Point eye = Point(0, SCENE_HEIGHT+1.0, 0);
+	Point center = Point(1.0, SCENE_HEIGHT+1.0, 1.0);
 	Point up = Point(0.0f, 1.0f, 0.0f);
 	bool basaur;
 
@@ -95,26 +95,34 @@ bool cGame::Process() {
 	if(keys[27])return false;
 	if(keys['W'] || keys['w'] || specialKeys[GLUT_KEY_UP]) {
 		Point camEye = cam.getCameraEye();
+		Point camCenter = cam.getCameraCenter();
 		camEye.z=(camEye.z+1);
-		cam.setCamera(camEye, cam.getCameraCenter());
+		camEye.x=(camEye.x+1);
+		camCenter.z = camCenter.z+1;
+		camCenter.x = camCenter.x+1;
+		cam.setCamera(camEye, camCenter);
 		return true;
 	}
 	if(keys['A'] || keys['a'] || specialKeys[GLUT_KEY_LEFT]) {
-		Point camEye = cam.getCameraEye();
+		/*Point camEye = cam.getCameraEye();
 		camEye.x=(camEye.x-1);
-		cam.setCamera(camEye, cam.getCameraCenter());
+		cam.setCamera(camEye, cam.getCameraCenter());*/
 		return true;
 	}
 	if(keys['S'] || keys['s'] || specialKeys[GLUT_KEY_DOWN]) {
 		Point camEye = cam.getCameraEye();
+		Point camCenter = cam.getCameraCenter();
 		camEye.z=(camEye.z-1);
-		cam.setCamera(camEye, cam.getCameraCenter());
+		camEye.x=(camEye.x-1);
+		camCenter.z = camCenter.z-1;
+		camCenter.x = camCenter.x-1;
+		cam.setCamera(camEye, camCenter);
 		return true;
 	}
 	if(keys['D'] || keys['d'] || specialKeys[GLUT_KEY_RIGHT]) {
-		Point camEye = cam.getCameraEye();
+		/*Point camEye = cam.getCameraEye();
 		camEye.x=(camEye.x+1);
-		cam.setCamera(camEye, cam.getCameraCenter());
+		cam.setCamera(camEye, cam.getCameraCenter());*/
 		return true;
 	}
 	return true;
